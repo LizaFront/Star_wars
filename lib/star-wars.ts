@@ -14,11 +14,67 @@
 // Всё, что вам необходимо знать: эти методы умеют получать данные и возвращают промисы.
 // Поробуйте запустить их в своем скрипте search.js.
 
+interface IPlanet {
+	name: string;
+	rotation_period: string;
+	orbital_period: string;
+	diameter: string;
+	climate: string;
+	gravity: string;
+	population: string;
+	surface_water: string;
+	terrain: string;
+	films: string[];
+}
+
+interface IPerson {
+	name: string;
+	height: string;
+	mass: string;
+	hair_color: string;
+	birth_year: string;
+	eye_color: string;
+	gender: string;
+	skin_color: string;
+	films: string[];
+	homeworld?: string;
+}
+
+interface ISpecies {
+	name: string;
+	language: string;
+	skin_colors: string;
+	hair_colors: string;
+	eye_colors: string;
+	designation: string;
+	classification: string;
+	average_lifespan: string;
+	average_height: string;
+	films: string[];
+	homeworld?: string;
+}
+
+interface IFilm {
+	title: string;
+	episode_id: string;
+	opening_crawl: string;
+	producer: string;
+	director: string;
+	release_date: string;
+}
+
+type Result = IPerson[] | IPlanet[] | ISpecies[];
+type DataType = IPerson | ISpecies | IPlanet | IFilm;
+
+interface IData {
+	results: Result;
+}
+
 const starWars = {
 	// --- Search Methods ---
 
-	searchCharacters: (query) => {
-		return new Promise((resolve, reject) => {
+	searchCharacters: (query: string): Promise<IData> => {
+		return new Promise((resolve) => {
 			fetch(`https://swapi.dev/api/people/?search=${query}`)
 				.then((response) => response.json())
 				.then((characters) => resolve(characters))
@@ -26,8 +82,8 @@ const starWars = {
 		});
 	},
 
-	searchPlanets: (query) => {
-		return new Promise((resolve, reject) => {
+	searchPlanets: (query: string): Promise<IData> => {
+		return new Promise((resolve) => {
 			fetch(`https://swapi.dev/api/planets/?search=${query}`)
 				.then((response) => response.json())
 				.then((planets) => resolve(planets))
@@ -35,8 +91,8 @@ const starWars = {
 		});
 	},
 
-	searchSpecies: (query) => {
-		return new Promise((resolve, reject) => {
+	searchSpecies: (query: string): Promise<IData> => {
+		return new Promise((resolve) => {
 			fetch(`https://swapi.dev/api/species/?search=${query}`)
 				.then((response) => response.json())
 				.then((species) => resolve(species))
@@ -46,15 +102,15 @@ const starWars = {
 
 	// --- Get By Id Methods ---
 
-	getCharactersById: async (id) =>
+	getCharactersById: async (id: number | string) =>
 		await (await fetch(`https://swapi.dev/api/people/${id}`)).json(),
 
-	getPlanetsById: async (id) =>
+	getPlanetsById: async (id: number | string) =>
 		await (await fetch(`https://swapi.dev/api/planets/${id}`)).json(),
 
-	getSpeciesById: async (id) =>
+	getSpeciesById: async (id: number | string) =>
 		await (await fetch(`https://swapi.dev/api/species/${id}`)).json(),
 
-	getFilmsById: async (id) =>
+	getFilmsById: async (id: number | string) =>
 		await (await fetch(`https://swapi.dev/api/films/${id}`)).json(),
 };

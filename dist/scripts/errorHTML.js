@@ -1,6 +1,7 @@
+"use strict";
 // HTML контент в случае ошибки данных
 const errorContent = () => {
-	return `
+    return `
 		<article class="message is-dark">
             <div class="message-header">
                 <p>Something is going wrong</p>
